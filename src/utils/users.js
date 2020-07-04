@@ -1,4 +1,5 @@
 const users = []
+let rooms = []
 
 //addUser, removeUser, getUser, getUsersInRoom
 
@@ -27,6 +28,12 @@ const addUser = ({ id, username, room }) => {
         }
     }
 
+      //check for existing rooms
+      const existingroom = rooms.find((userroom) => userroom === room)
+      if(!existingroom) {
+          rooms.push(room)
+      }
+
     //store user
     const user = {id, username, room}
     users.push(user)
@@ -36,7 +43,7 @@ const addUser = ({ id, username, room }) => {
 const removeUser = (id) => {
     const index = users.findIndex((user) =>  user.id === id) 
 
-    if(index != 1) {
+    if(index !== -1) {
         return users.splice(index, 1)[0]
     }
 }
@@ -50,9 +57,20 @@ const getUsersInRoom = (room) => {
     return users.filter((user) => user.room === room)
 }
 
+const getAllRooms = () => {
+    return rooms
+}
+
+const removeRoom = (room) => {
+    rooms = rooms.filter((userroom) => userroom !== room)
+    return rooms
+}
+
 module.exports = {
     addUser,
     removeUser,
     getUser,
-    getUsersInRoom
+    getUsersInRoom,
+    getAllRooms,
+    removeRoom
 }
